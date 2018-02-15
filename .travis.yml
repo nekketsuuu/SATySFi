@@ -1,25 +1,26 @@
+# Documentation: https://github.com/ocaml/ocaml-ci-scripts/blob/master/README-travis-runner.md
+
 language: c
-os:
-  - linux
-  - osx
-env:
-  - OCAML_VERSION=4.05
 sudo: required
-install:
-  - wget https://raw.githubusercontent.com/ocaml/ocaml-travisci-skeleton/master/.travis-ocaml.sh
-  - bash -ex .travis-ocaml.sh
-  - eval `opam config env`
-  - opam install -y ppx_deriving
-  - opam install -y menhir
-  - opam install -y core.v0.9.1
-  - opam install -y ctypes
-  - opam install -y uutf
-  - opam install -y result
-  - opam install -y bitv
-  - opam install -y batteries
-  - opam install -y yojson
-  - opam install -y camlimages
-  - eval `opam config env`
-  - git submodule update -i
-script:
-  - make all
+services:
+  - docker
+install: |
+  if [[ "${TRAVIS_OS_NAME}" == "linux" ]] ; then
+    wget -O .travis-ci.sh https://raw.githubusercontent.com/ocaml/ocaml-ci-scripts/master/.travis-docker.sh ;
+  else
+    wget -O .travis-ci.sh https://raw.githubusercontent.com/ocaml/ocaml-ci-scripts/master/.travis-opam.sh ;
+  fi
+script: bash -ex ./.travis-docker.sh
+
+env:
+  global:
+    - PACKAGE="satysfi"
+    - TESTS="true"
+matrix:
+  include:
+    - os: linux
+      env: DISTRO="alpine" OCAML_VERSION="4.05.0"
+    - os: linux
+      env: DISTRO="ubuntu-16.04" OCAML_VERSION="4.05.0"
+    - os: osx
+      env: OCAML_VERSION="4.05"
