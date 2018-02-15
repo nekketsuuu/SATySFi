@@ -21,6 +21,7 @@ depends: [
   "batteries"
   "bitv"
   "camlimages"
+  "conf-wget" {build}
   "core" {= "v0.10.0"}
   "depext"
   "menhir"
