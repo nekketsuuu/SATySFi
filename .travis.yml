@@ -10,7 +10,7 @@ install: |
   else
     wget -O .travis-ci.sh https://raw.githubusercontent.com/ocaml/ocaml-ci-scripts/master/.travis-opam.sh ;
   fi
-script: bash -ex ./.travis-docker.sh
+script: bash -ex ./.travis-ci.sh
 
 env:
   global:
