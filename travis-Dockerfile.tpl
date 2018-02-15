@@ -4,8 +4,11 @@ FROM ocaml/opam:%distro%_ocaml-%ocaml_version%
 
 WORKDIR build
 ADD . .
-ENV OPAMYES "true"                 # enable --yes option for opam commands (see `opam --help`)
-ENV OPAMBUILDTEST %opambuildtest%  # enable/disable tests (see `opam install --help`)
+# enable --yes option for opam commands (see `opam --help`)
+ENV OPAMYES "true"
+# enable/disable tests (see `opam install --help`)
+ENV OPAMBUILDTEST %opambuildtest%
+# install
 RUN opam pin add --no-action %package% . \
  && opam depext --update %package% \
  && opam install --deps-only %package%
