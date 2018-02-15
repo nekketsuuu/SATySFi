@@ -18,17 +18,17 @@ remove: [
   [make "-f" "Makefile" "uninstall" "PREFIX=%{prefix}%"]
 ]
 depends: [
+  "batteries"
+  "bitv"
+  "camlimages"
+  "core_kernel" {>= "v0.10.0"}
   "depext"
-  "ocamlfind"
-  "ocamlbuild" {build}
   "menhir"
+  "ocamlbuild" {build}
+  "ocamlfind"
   "ppx_deriving"
   "uutf"
   "result"
-  "core_kernel" {>= "v0.10.0"}
-  "bitv"
-  "batteries"
   "yojson"
-  "camlimages"
 ]
 available: [ ocaml-version >= "4.06.0" ]
