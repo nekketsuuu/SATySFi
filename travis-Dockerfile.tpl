@@ -9,7 +9,8 @@ ENV OPAMYES "true"
 # enable/disable tests (see `opam install --help`)
 ENV OPAMBUILDTEST %opambuildtest%
 # install
-RUN opam pin add --no-action %package% . \
+RUN opam update \
+ && opam pin add --no-action %package% . \
  && opam depext --update %package% \
  && opam install --deps-only %package%
 CMD opam install %package%
