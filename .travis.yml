@@ -45,5 +45,5 @@ script: |
   if [[ "${TRAVIS_OS_NAME}" == "linux" ]] ; then
     docker build --file "${DOCKERFILE}" --tag satysfi/satysfi:travis . ;
   else
-    "${MYOPAM}" install "${PACKAGE}" ;
+    "${HOME}/opam" install "${PACKAGE}" ;
   fi
