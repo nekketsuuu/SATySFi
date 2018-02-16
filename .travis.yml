@@ -1,3 +1,8 @@
+# Note: If there are dependent packages only for testing, this script will fail
+#       because this installs dependency without setting OPAMBUILDTEST.
+#       There is a workaround for this problem, but now I don't implement it for simplicity.
+#       See: https://github.com/ocaml/opam/issues/2506
+
 language: c
 sudo: required
 services:
@@ -15,7 +20,7 @@ matrix:
 env:
   global:
     - PACKAGE="satysfi"
-    - OPAMBUILDTEST="true"
+    - TESTS="true"
     # for osx
     - OPAMYES="true"
     - OPAMJOBS=2
@@ -27,24 +32,26 @@ before_script: |
     export DOCKERFILE="travis-Dockerfile.tpl" ;
     sed -i "s/%distro%/${DISTRO}/g"               "${DOCKERFILE}" ;
     sed -i "s/%ocaml_version%/${OCAML_VERSION}/g" "${DOCKERFILE}" ;
-    sed -i "s/%opambuildtest%/${OPAMBUILDTEST}/g" "${DOCKERFILE}" ;
+    sed -i "s/%opambuildtest%/${TESTS}/g"         "${DOCKERFILE}" ;
     sed -i "s/%package%/${PACKAGE}/g"             "${DOCKERFILE}" ;
     cat "${DOCKERFILE}" ;
   else
     # for osx
     # download and install OPAM
-    wget -O "${HOME}/opam" https://github.com/ocaml/opam/releases/download/1.2.2/opam-1.2.2-x86_64-Darwin ;
-    chmod +x "${HOME}/opam" ;
-    "${HOME}/opam" init --compiler="${OCAML_VERSION}" ;
-    eval `"${HOME}/opam" config env` ;
+    wget -O /usr/local/bin/opam https://github.com/ocaml/opam/releases/download/1.2.2/opam-1.2.2-x86_64-Darwin ;
+    chmod +x /usr/local/bin/opam ;
+    opam init --compiler="${OCAML_VERSION}" ;
+    eval `opam config env` ;
+    opam install depext ;
     
     # install dependency
-    "${HOME}/opam" pin add --no-action "${PACKAGE}.dev" . ;
-    "${HOME}/opam" install --deps-only "${PACKAGE}.dev" ;
+    opam pin add --no-action "${PACKAGE}.dev" . ;
+    opam depext --update "${PACKAGE}.dev" ;
+    opam install --deps-only "${PACKAGE}.dev" ;
   fi
 script: |
   if [[ "${TRAVIS_OS_NAME}" == "linux" ]] ; then
     docker build --file "${DOCKERFILE}" --tag satysfi/satysfi:travis . ;
   else
-    "${HOME}/opam" install "${PACKAGE}.dev" ;
+    OPAMBUILDTEST="${TESTS}" opam install "${PACKAGE}.dev" ;
   fi

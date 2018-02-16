@@ -14,7 +14,7 @@ RUN cd /home/opam/opam-repository \
  && cd /home/opam/build \
  && opam update \
  && opam pin add --no-action %package%.dev . \
- && opam depext --update %package% \
+ && opam depext --update %package%.dev \
  && opam install --deps-only %package%.dev
 # Enable/disable tests (see `opam install --help`)
 ENV OPAMBUILDTEST %opambuildtest%
