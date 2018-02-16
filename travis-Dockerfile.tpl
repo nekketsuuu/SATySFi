@@ -13,9 +13,9 @@ RUN cd /home/opam/opam-repository \
  && git pull --quiet origin master \
  && cd /home/opam/build \
  && opam update \
- && opam pin add --no-action %package% . \
+ && opam pin add --no-action %package%.dev . \
  && opam depext --update %package% \
  && opam install --deps-only %package%
 # Enable/disable tests (see `opam install --help`)
 ENV OPAMBUILDTEST %opambuildtest%
-CMD opam install %package%
+CMD opam install %package%.dev

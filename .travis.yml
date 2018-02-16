@@ -38,12 +38,12 @@ before_script: |
     eval `"${HOME}/opam" config env` ;
     
     # install dependency
-    "${HOME}/opam" pin add --no-action "${PACKAGE}" . ;
+    "${HOME}/opam" pin add --no-action "${PACKAGE}.dev" . ;
     "${HOME}/opam" install --deps-only "${PACKAGE}" ;
   fi
 script: |
   if [[ "${TRAVIS_OS_NAME}" == "linux" ]] ; then
     docker build --file "${DOCKERFILE}" --tag satysfi/satysfi:travis . ;
   else
-    "${HOME}/opam" install "${PACKAGE}" ;
+    "${HOME}/opam" install "${PACKAGE}.dev" ;
   fi
