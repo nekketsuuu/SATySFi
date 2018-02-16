@@ -34,6 +34,7 @@ before_script: |
     sed -i "s/%opambuildtest%/${TESTS}/g"         "${DOCKERFILE}" ;
     sed -i "s/%package%/${PACKAGE}/g"             "${DOCKERFILE}" ;
     cat "${DOCKERFILE}" ;
+    docker build --file "${DOCKERFILE}" --tag satysfi/satysfi:travis . ;
   else
     # for osx
     # download and install OPAM
@@ -52,7 +53,7 @@ before_script: |
   fi
 script: |
   if [[ "${TRAVIS_OS_NAME}" == "linux" ]] ; then
-    docker build --file "${DOCKERFILE}" --tag satysfi/satysfi:travis . ;
+    docker run satysfi/satysfi:travis ;
   else
     OPAMBUILDTEST="${TESTS}" opam install "${PACKAGE}.dev" ;
   fi
