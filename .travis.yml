@@ -38,7 +38,7 @@ before_script: |
     eval `"${HOME}/opam" config env` ;
     
     # install dependency
-    "${HOME}/opam" pin add --no-action "${PACKAGE} ." ;
+    "${HOME}/opam" pin add --no-action "${PACKAGE}" . ;
     "${HOME}/opam" install --deps-only "${PACKAGE}" ;
   fi
 script: |
