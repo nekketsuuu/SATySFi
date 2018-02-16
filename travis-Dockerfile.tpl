@@ -2,14 +2,19 @@
 
 FROM ocaml/opam:%distro%_ocaml-%ocaml_version%
 
-WORKDIR build
+WORKDIR /home/opam/build
 ADD . .
-# enable --yes option for opam commands (see `opam --help`)
+# Enable --yes option for opam commands (see `opam --help`)
 ENV OPAMYES "true"
-# enable/disable tests (see `opam install --help`)
+# Enable/disable tests (see `opam install --help`)
 ENV OPAMBUILDTEST %opambuildtest%
 # install
-RUN opam update \
+# Note: We should manually update the local opam-repository
+#       because ocaml/opam uses it instead of the online one.
+RUN cd /home/opam/opam-repository \
+ && git pull origin master \
+ && cd /home/opam/build \
+ && opam update \
  && opam pin add --no-action %package% . \
  && opam depext --update %package% \
  && opam install --deps-only %package%
