@@ -7,7 +7,7 @@ services:
 env:
   global:
     - PACKAGE="satysfi"
-    - TESTS="true"
+    - TESTS="false"
 matrix:
   include:
     - os: osx
