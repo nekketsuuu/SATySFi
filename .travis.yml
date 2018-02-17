@@ -15,7 +15,7 @@ matrix:
 env:
   global:
     - PACKAGE="satysfi"
-    - OPAMBUILDTEST="true"
+    - OPAMBUILDTEST="false"
     # for osx
     - OPAMYES="true"
     - OPAMJOBS=2
