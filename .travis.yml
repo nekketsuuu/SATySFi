@@ -1,8 +1,3 @@
-# Note: If there are dependent packages only for testing, this script will fail
-#       because this installs dependency without setting OPAMBUILDTEST.
-#       There is a workaround for this problem, but now I don't implement it for simplicity.
-#       See: https://github.com/ocaml/opam/issues/2506
-
 language: c
 sudo: required
 services:
@@ -20,7 +15,7 @@ matrix:
 env:
   global:
     - PACKAGE="satysfi"
-    - TESTS="true"
+    - OPAMBUILDTEST="true"
     # for osx
     - OPAMYES="true"
     - OPAMJOBS=2
@@ -31,7 +26,7 @@ before_script: |
     export DOCKERFILE="travis-Dockerfile.tpl" ;
     sed -i "s/%distro%/${DISTRO}/g"               "${DOCKERFILE}" ;
     sed -i "s/%ocaml_version%/${OCAML_VERSION}/g" "${DOCKERFILE}" ;
-    sed -i "s/%opambuildtest%/${TESTS}/g"         "${DOCKERFILE}" ;
+    sed -i "s/%opambuildtest%/${OPAMBUILDTEST}/g" "${DOCKERFILE}" ;
     sed -i "s/%package%/${PACKAGE}/g"             "${DOCKERFILE}" ;
     cat "${DOCKERFILE}" ;
     docker build --file "${DOCKERFILE}" --tag satysfi/satysfi:travis . ;
@@ -55,5 +50,5 @@ script: |
   if [[ "${TRAVIS_OS_NAME}" == "linux" ]] ; then
     docker run satysfi/satysfi:travis ;
   else
-    OPAMBUILDTEST="${TESTS}" opam install "${PACKAGE}.dev" ;
+    opam install "${PACKAGE}.dev" ;
   fi
