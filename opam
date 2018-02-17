@@ -28,8 +28,11 @@ depends: [
   "ocamlbuild" {build}
   "ocamlfind"
   "ppx_deriving"
-  "result"
   "uutf"
+  "result"
+  "core_kernel" {>= "v0.10.0"}
+  "bitv"
+  "batteries"
   "yojson"
 ]
-available: [ ocaml-version = "4.05.0" ]
+available: [ ocaml-version >= "4.06.0" ]
