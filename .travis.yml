@@ -2,6 +2,10 @@ language: c
 sudo: required
 services:
   - docker
+cache:
+  - directories
+    - $HOME/Library/Caches/Homebrew
+    - $HOME/.opam/repo
 matrix:
   include:
     - os: osx
