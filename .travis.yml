@@ -5,7 +5,7 @@ services:
 matrix:
   include:
     - os: osx
-      env: OCAML_VERSION="4.06.0"
+      env: OCAML_VERSION="4.06"
     - os: linux
       env: DISTRO="alpine" OCAML_VERSION="4.05.0"
     - os: linux
@@ -15,40 +15,25 @@ matrix:
 env:
   global:
     - PACKAGE="satysfi"
-    - OPAMBUILDTEST="false"
-    # for osx
-    - OPAMYES="true"
-    - OPAMJOBS=2
+    - TESTS="false"
 before_script: |
   if [[ "${TRAVIS_OS_NAME}" == "linux" ]] ; then
-    # for linux like alpine and ubuntu
+    # for linux (alpine and ubuntu)
     # prepare Dockerfile
     export DOCKERFILE="travis-Dockerfile.tpl" ;
     sed -i "s/%distro%/${DISTRO}/g"               "${DOCKERFILE}" ;
     sed -i "s/%ocaml_version%/${OCAML_VERSION}/g" "${DOCKERFILE}" ;
-    sed -i "s/%opambuildtest%/${OPAMBUILDTEST}/g" "${DOCKERFILE}" ;
+    sed -i "s/%opambuildtest%/${TESTS}/g"         "${DOCKERFILE}" ;
     sed -i "s/%package%/${PACKAGE}/g"             "${DOCKERFILE}" ;
     cat "${DOCKERFILE}" ;
     docker build --file "${DOCKERFILE}" --tag satysfi/satysfi:travis . ;
   else
     # for osx
-    # download and install OPAM
-    brew update > /dev/null ;
-    brew install aspcud ;
-    wget -O /usr/local/bin/opam https://github.com/ocaml/opam/releases/download/1.2.2/opam-1.2.2-x86_64-Darwin ;
-    chmod +x /usr/local/bin/opam ;
-    opam init --compiler="${OCAML_VERSION}" ;
-    eval `opam config env` ;
-    opam install depext ;
-    
-    # install dependency
-    opam pin add --no-action "${PACKAGE}.dev" . ;
-    opam depext "${PACKAGE}.dev" ;
-    opam install --deps-only "${PACKAGE}.dev" ;
+    wget https://raw.githubusercontent.com/ocaml/ocaml-ci-scripts/master/.travis-opam.sh
   fi
 script: |
   if [[ "${TRAVIS_OS_NAME}" == "linux" ]] ; then
     docker run satysfi/satysfi:travis ;
   else
-    opam install "${PACKAGE}.dev" ;
+    bash -ex .travis-opam.sh
   fi
