@@ -23,7 +23,7 @@
 * unzip
 * wget
 * [opam](https://opam.ocaml.org/) 1.2 （インストール手順は[こちら](https://opam.ocaml.org/doc/Install.html)。）
-* ocaml 4.05.0 （OPAM からインストールします）
+* ocaml 4.06.0 （OPAM からインストールします）
 
 #### 準備例（Ubuntu）
 
@@ -35,7 +35,7 @@ sudo apt-get install build-essential git m4 unzip wget
 # 必ず説明を読み，環境変数を適切に設定してください。
 wget https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh -O - | sh -s /usr/local/bin
 
-opam switch 4.05.0
+opam switch 4.06.0
 eval `opam config env`
 opam update
 ```
@@ -53,7 +53,7 @@ brew install unzip wget git opam
 # 必ず説明を読み，環境変数を適切に設定してください。
 opam init
 
-opam switch 4.05.0
+opam switch 4.06.0
 eval `opam config env`
 opam update
 ```

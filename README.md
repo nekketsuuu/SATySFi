@@ -22,7 +22,7 @@ Here is a list of minimally required softwares.
 * unzip
 * wget
 * [opam](https://opam.ocaml.org/) 1.2 (Installation instructions are [here](https://opam.ocaml.org/doc/Install.html).)
-* ocaml 4.05.0 (installed by OPAM)
+* ocaml 4.06.0 (installed by OPAM)
 
 #### Example (Ubuntu)
 
@@ -34,7 +34,7 @@ sudo apt-get install build-essential git m4 unzip wget
 # Be sure to read its instructions. Otherwise, some environment variables won't be set.
 wget https://raw.github.com/ocaml/opam/master/shell/opam_installer.sh -O - | sh -s /usr/local/bin
 
-opam switch 4.05.0
+opam switch 4.06.0
 eval `opam config env`
 opam update
 ```
@@ -52,7 +52,7 @@ brew install unzip wget git opam
 # Be sure to read their instructions. Otherwise, some environment variables won't be set.
 opam init
 
-opam switch 4.05.0
+opam switch 4.06.0
 eval `opam config env`
 opam update
 ```
