@@ -32,4 +32,4 @@ depends: [
   "uutf"
   "yojson"
 ]
-available: [ ocaml-version >= "4.05.0" ]
+available: [ ocaml-version >= "4.06.0" ]
