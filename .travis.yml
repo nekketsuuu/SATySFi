@@ -13,15 +13,12 @@ matrix:
 env:
   global:
     - PACKAGE="satysfi"
-    - OPAMBUILDTEST="false"
-    # For osx
-    - OPAMYES="true"
-    - OPAMJOBS=2
+    - TESTS="false"
 before_script: |
   if [[ "${TRAVIS_OS_NAME}" == "linux" ]] ; then
     bash -ex ./travis/linux-before-script.sh ;
   elif [[ "${TRAVIS_OS_NAME}" == "osx" ]] ; then
-    bash -ex ./travis/osx-before-script.sh ;
+    wget https://raw.githubusercontent.com/ocaml/ocaml-ci-scripts/master/.travis-opam.sh ;
   else
     echo "Unkown OS name: ${TRAVIS_OS_NAME}" ;
     false ;
@@ -30,5 +27,5 @@ script: |
   if [[ "${TRAVIS_OS_NAME}" == "linux" ]] ; then
     docker run satysfi/satysfi:travis ;
   else
-    opam install "${PACKAGE}.dev" ;
+    bash -ex .travis-opam.sh
   fi
